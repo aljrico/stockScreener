@@ -1,6 +1,23 @@
+list_companies <- function(){
+  all_symbols <- rfinance::get_symbols_list()
+  # complete_list <- rfinance::get_company_profile(all_symbols)
+  all_symbols
+}
+
+navigation_bar <- function() {
+  bs4Dash::bs4DashNavbar(
+    skin = "light",
+    status = "white",
+    border = TRUE,
+    sidebarIcon = "bars",
+    controlbarIcon = "th",
+    fixed = FALSE
+  )
+}
+
 #' The application User-Interface
-#' 
-#' @param request Internal parameter for `{shiny}`. 
+#'
+#' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
 #' @import shiny
 #' @noRd
@@ -8,35 +25,40 @@ app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
-    # List the first level UI elements here 
-    fluidPage(
-      h1("stockScreener")
+    # List the first level UI elements here
+    bs4Dash::bs4DashPage(
+      old_school = FALSE,
+      sidebar_collapsed = TRUE,
+      controlbar_collapsed = TRUE,
+      controlbar_overlay = TRUE,
+      title = "Basic Dashboard",
+      body = bs4Dash::bs4DashBody(
+        dqshiny::autocomplete_input("auto1", "", companies_list, max_options = 10, hide_values = FALSE)
+      )
     )
   )
 }
 
 #' Add external Resources to the Application
-#' 
-#' This function is internally used to add external 
-#' resources inside the Shiny application. 
-#' 
+#'
+#' This function is internally used to add external
+#' resources inside the Shiny application.
+#'
 #' @import shiny
 #' @importFrom golem add_resource_path activate_js favicon bundle_resources
 #' @noRd
-golem_add_external_resources <- function(){
-  
+golem_add_external_resources <- function() {
   add_resource_path(
-    'www', app_sys('app/www')
+    "www", app_sys("app/www")
   )
- 
+
   tags$head(
     favicon(),
     bundle_resources(
-      path = app_sys('app/www'),
-      app_title = 'stockScreener'
+      path = app_sys("app/www"),
+      app_title = "stockScreener"
     )
     # Add here other external resources
-    # for example, you can add shinyalert::useShinyalert() 
+    # for example, you can add shinyalert::useShinyalert()
   )
 }
-

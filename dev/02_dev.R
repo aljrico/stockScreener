@@ -17,6 +17,9 @@
 ## Add one line by package you want to add as dependency
 usethis::use_package( "tidyverse" )
 usethis::use_package( "rfinance" )
+usethis::use_package( "bs4Dash" )
+usethis::use_package( "shinyWidgets" )
+usethis::use_package( "dqshiny" )
 
 ## Add modules ----
 ## Create a module infrastructure in R/
