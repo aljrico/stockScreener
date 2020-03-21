@@ -1,0 +1,71 @@
+ .searchbar{
+    border: 0;
+    outline: 0;
+    background: none;
+    width: 0;
+    margin-bottom: auto;
+    margin-top: auto;
+    height: 60px;
+    background-color: #1f2430;
+    border-radius: 30px;
+    padding: 10px;
+    }
+    .search_input{
+    color: white;
+    border: 0;
+    outline: 0;
+    background: none;
+    width: 450px;
+    position: relative;
+    caret-color: #ff9940;
+    line-height: 40px;
+    left: 10px;
+    }
+    .searchbar:hover > .search_icon{
+    background: white;
+    color: #ff9940;
+    }
+    .search_icon{
+        position: relative;
+        top: -42px;
+    height: 40px;
+    width: 40px;
+    float: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color:white;
+    text-decoration:none;
+    }
+    .searchbar-items {
+        display: block;
+        position: absolute;
+        border-bottom: 2px solid #1f2430;
+        border-top: 2px solid #1f2430;
+        background-color: #1f2430;
+        z-index: 99;
+        
+  /*position the autocomplete items to be the same width as the container:*/
+  left: 20px;
+}
+.searchbar-items div {
+  padding: 20px;
+  left: 10px;
+  top: -50px;
+  cursor: pointer;
+  width: 240px;
+  background-color: rgb(31, 36, 48);
+  border-radius: 10px;
+  color: #fafafa;
+}
+.searchbar-items div:hover {
+  /*when hovering an item:*/
+  background-color: rgb(250, 250, 250);
+  color: #ff9940;
+}
+.searchbar-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: DodgerBlue !important;
+  color: #ffffff;
+}

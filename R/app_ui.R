@@ -15,6 +15,33 @@ navigation_bar <- function() {
   )
 }
 
+autocomplete_searchbar <- function(
+  id, label, options, value = "", width = NULL, placeholder = 'Search...',
+  max_options = 0, hide_values = FALSE, create = FALSE
+) {
+  if (!requireNamespace("jsonlite", quietly = TRUE)) {
+    stop("jsonlite is needed to convert list of options into json!")
+  }
+  value <- shiny::restoreInput(id = id, default = value)
+  js_opts <- jsonlite::toJSON(as.list(options), auto_unbox = TRUE)
+  width <- shiny::validateCssUnit(width)
+  if (length(value) == 0L) value <- ""
+  shiny::div(
+    class = "form-group shiny-input-container searchbar",
+    shiny::tags$input(
+      id = id, type = "text", class = "search_input", result = value,
+      value = value, placeholder = placeholder, "data-options" = js_opts,
+      "data-max" = max_options, "data-hide" = tolower(isTRUE(hide_values)),
+      "data-create" = tolower(isTRUE(create))
+    ),
+    tags$a(href="#", class="search_icon", tags$i(class="fas fa-search")),
+    htmltools::htmlDependency(
+      "autocomplete", "0.0.1", c(href = "aljrico"),
+      script = "js/autocomplete"
+    )
+  )
+}
+
 #' The application User-Interface
 #'
 #' @param request Internal parameter for `{shiny}`.
@@ -33,7 +60,11 @@ app_ui <- function(request) {
       controlbar_overlay = TRUE,
       title = "Basic Dashboard",
       body = bs4Dash::bs4DashBody(
-        dqshiny::autocomplete_input("auto1", "", companies_list, max_options = 10, hide_values = FALSE)
+        fluidRow(
+          column(4),
+          column(4, autocomplete_searchbar('searchbar', "", companies_list, max_options = 5, hide_values = TRUE)),
+          column(4)
+        )
       )
     )
   )
