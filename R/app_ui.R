@@ -1,46 +1,3 @@
-list_companies <- function(){
-  all_symbols <- rfinance::get_symbols_list()
-  # complete_list <- rfinance::get_company_profile(all_symbols)
-  all_symbols
-}
-
-navigation_bar <- function() {
-  bs4Dash::bs4DashNavbar(
-    skin = "light",
-    status = "white",
-    border = TRUE,
-    sidebarIcon = "bars",
-    controlbarIcon = "th",
-    fixed = FALSE
-  )
-}
-
-autocomplete_searchbar <- function(
-  id, label, options, value = "", width = NULL, placeholder = 'Search...',
-  max_options = 0, hide_values = FALSE, create = FALSE
-) {
-  if (!requireNamespace("jsonlite", quietly = TRUE)) {
-    stop("jsonlite is needed to convert list of options into json!")
-  }
-  value <- shiny::restoreInput(id = id, default = value)
-  js_opts <- jsonlite::toJSON(as.list(options), auto_unbox = TRUE)
-  width <- shiny::validateCssUnit(width)
-  if (length(value) == 0L) value <- ""
-  shiny::div(
-    class = "form-group shiny-input-container searchbar",
-    shiny::tags$input(
-      id = id, type = "text", class = "search_input", result = value,
-      value = value, placeholder = placeholder, "data-options" = js_opts,
-      "data-max" = max_options, "data-hide" = tolower(isTRUE(hide_values)),
-      "data-create" = tolower(isTRUE(create))
-    ),
-    tags$a(href="#", class="search_icon", tags$i(class="fas fa-search")),
-    htmltools::htmlDependency(
-      "autocomplete", "0.0.1", c(href = "aljrico"),
-      script = "js/autocomplete"
-    )
-  )
-}
 
 #' The application User-Interface
 #'
@@ -62,7 +19,7 @@ app_ui <- function(request) {
       body = bs4Dash::bs4DashBody(
         fluidRow(
           column(4),
-          column(4, autocomplete_searchbar('searchbar', "", companies_list, max_options = 5, hide_values = TRUE)),
+          column(4, mod_searchbar_ui('searchbar', "", companies_list, max_options = 5, hide_values = TRUE)),
           column(4)
         )
       )
